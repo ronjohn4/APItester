@@ -1,0 +1,1 @@
+select config from detail group by config order by config

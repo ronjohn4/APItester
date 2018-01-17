@@ -1,0 +1,1 @@
+select datetime, api, sum(total_duration)/sum(calls) from detail where datetime="2017-12-15 09:47:31.053467" and config="APIdef-loadparms.csv" group by datetime, api 

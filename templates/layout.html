@@ -1,0 +1,14 @@
+<!doctype html>
+<title>APITester - {% block title %}{% endblock %}</title>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+<div class=page>
+    <h1>API Tester</h1>
+    <a href="{{ url_for('home') }}">home</a>
+    |  <a href="{{ url_for('graph71') }}">graph 71</a>
+    |  <a href="{{ url_for('tableview') }}">table</a>
+    <br>
+    {% for message in get_flashed_messages() %}
+        <div class=flash>{{ message }}</div>
+    {% endfor %}<br>
+    {% block body %}{% endblock %}
+</div>

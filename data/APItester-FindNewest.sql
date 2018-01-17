@@ -1,0 +1,1 @@
+select * from detail group by datetime order by datetime desc limit 1
