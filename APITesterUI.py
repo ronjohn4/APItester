@@ -1,6 +1,5 @@
 from flask import Flask,render_template, request
 from APItesterDB import DB
-# from pandas import pd
 import pandas as pd
 
 app = Flask(__name__)

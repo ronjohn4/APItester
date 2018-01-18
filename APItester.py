@@ -6,9 +6,8 @@
 # 2. The current system will act as a substitute for the UI
 # 3. Enough metrics will be persisted so analytics can be run
 # 4. Analytics will be granualar enough to allow working with multiple API servers
-# 5. The User Cases below will not conflict with each other
+# 5. The Use Cases below will not conflict with each other
 # 6. APItester does not replace htop
-# 7. Purpose built for ABC (e.g. the url base is hardcoded)
 #
 # --------
 # Use Case 1 - Stress my dev env
@@ -71,25 +70,7 @@ timestamp = str(datetime.datetime.now())
 
 class env_variables:
     def __init__(self):
-        self.networkID = None
-        self.propertyID = None
-        self.contentsID = None
-        self.seasonID = None
-        self.volumeID = None
-        self.categoryID = None
-        self.livefeedID = None
-        self.mediaacceptprofileID = None
-        self.packageID = None
-        self.partnerID = None
-        self.plannerID = None
-        self.deliveryConditionID = None
-        self.externalMetadataSourceID = None
-        self.FFmpegTemplateID = None
-        self.intermediateVideoTemplateID = None
-        self.macCaptionTemplateID = None
-        self.xlsTemplateID = None
-        self.executionID = None
-        self.mvpdPartnerID =  None
+        self.userId = None
 
 
 class parm_variables:
@@ -117,8 +98,8 @@ def APIloop(domain, threads, iterations, apifile):
     global current_session
     global current_test_config
 
-    auth_url = domain +  '/reachengine/security/login?auth_user=system&auth_password=password&depth=-1'
-    r = current_session.get(auth_url)
+    # auth_url = domain +  '/reachengine/security/login?auth_user=system&auth_password=password&depth=-1'
+    # r = current_session.get(auth_url)
 
     ifile = open(apifile, 'r')
     reader = csv.DictReader(ifile)
@@ -145,9 +126,9 @@ def APIloop(domain, threads, iterations, apifile):
         t.join()
 
     write_datetime = datetime.datetime.now()
-    print('len:', len(current_test_config))
+    print('config rows:', len(current_test_config))
     for r in current_test_config:
-        print(r)
+        # print(r)
         db.dbwriterow(APIparms.config, write_datetime, APIparms.threads, r['calls'], APIparms.domain, r['api'], r['total_duration'])
 
     # def dbwriterow(self, datetime, threads, host, api, duration):
@@ -174,35 +155,15 @@ def APItest(APIparms, FieldToLoad, SourceField, api, parms, current_env):
 
     if parms =='':
         urlkey = api
-        url = APIparms.domain +  '/reachengine/api' + api
+        url = APIparms.domain +  api
     else:
         #assume parms can contain any parameter, try them all
         urlkey = api + '?' + parms
-        url = APIparms.domain + '/reachengine/api' + api + '?' + parms
-
-    # url = 'http://10.20.16.71:8080/reachengine/api/abc/contents/5025/breakPrePostRolls'
+        url = APIparms.domain + '?' + parms
 
     # print('url before:', url)
     url = url.format(
-            networkID=current_env.networkID,
-            propertyID=current_env.propertyID,
-            contentsID=current_env.contentsID,
-            seasonID=current_env.seasonID,
-            volumeID=current_env.volumeID,
-            categoryID=current_env.categoryID,
-            livefeedID=current_env.livefeedID,
-            mediaacceptprofileID=current_env.mediaacceptprofileID,
-            packageID=current_env.packageID,
-            partnerID=current_env.partnerID,
-            plannerID=current_env.plannerID,
-            deliveryConditionID=current_env.deliveryConditionID,
-            externalMetadataSourceID=current_env.externalMetadataSourceID,
-            FFmpegTemplateID=current_env.FFmpegTemplateID,
-            intermediateVideoTemplateID=current_env.intermediateVideoTemplateID,
-            macCaptionTemplateID=current_env.macCaptionTemplateID,
-            xlsTemplateID=current_env.xlsTemplateID,
-            executionID=current_env.executionID,
-            mvpdPartnerID=current_env.mvpdPartnerID)
+            userId=current_env.userId)
 
     # print('url after:', url)
 
